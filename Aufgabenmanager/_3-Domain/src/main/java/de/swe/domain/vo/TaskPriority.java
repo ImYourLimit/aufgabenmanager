@@ -1,4 +1,4 @@
-package domain.vo;
+package de.swe.domain.vo;
 
 public class TaskPriority {
 }
