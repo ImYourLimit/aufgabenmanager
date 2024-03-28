@@ -18,7 +18,7 @@ import java.util.List;
 public class CSVTaskRepository implements TaskRepository {
 
     private static final String CSV_FILE_PATH = "src/main/resources/csv/tasks.csv";
-    private static final String[] HEADERS = {"ID", "Title", "Description", "DueDate", "Completed", "TaskPriority"};
+    private static final String[] HEADERS = {"ID", "UserId", "Title", "Description", "DueDate", "Completed", "TaskPriority"};
 
     @Override
     public void save(Task task) {
@@ -53,12 +53,13 @@ public class CSVTaskRepository implements TaskRepository {
              CSVParser parser = CSVFormat.DEFAULT.withHeader(HEADERS).withFirstRecordAsHeader().parse(in)) {
             for (CSVRecord record : parser) {
                 Long id = Long.parseLong(record.get("ID"));
+                Long userId = Long.parseLong(record.get("UserId"));
                 String title = record.get("Title");
                 String description = record.get("Description");
                 LocalDateTime dueDate = LocalDateTime.parse(record.get("DueDate"));
                 boolean completed = Boolean.parseBoolean(record.get("Completed"));
                 TaskPriority taskPriority = TaskPriority.valueOf(record.get("TaskPriority"));
-                tasks.add(new Task(id, title, description, dueDate, completed, taskPriority));
+                tasks.add(new Task(id, userId, title, description, dueDate, completed, taskPriority));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,11 +67,18 @@ public class CSVTaskRepository implements TaskRepository {
         return tasks;
     }
 
+    @Override
+    public List<Task> findByUserId(Long userId) {
+        List<Task> tasks = findAll();
+        tasks.removeIf(t -> !t.getUserId().equals(userId));
+        return tasks;
+    }
+
     private void writeToCsv(List<Task> tasks) {
         try (FileWriter out = new FileWriter(CSV_FILE_PATH);
              CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(HEADERS))) {
             for (Task t : tasks) {
-                printer.printRecord(t.getId(), t.getTitle(), t.getDescription(), t.getDueDate(), t.isCompleted(), t.getTaskPriority());
+                printer.printRecord(t.getId(), t.getUserId(), t.getTitle(), t.getDescription(), t.getDueDate(), t.isCompleted(), t.getTaskPriority());
             }
         } catch (IOException e) {
             e.printStackTrace();

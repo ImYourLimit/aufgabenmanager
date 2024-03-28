@@ -11,7 +11,10 @@ import static java.lang.Thread.sleep;
 
 public class CliStart {
 
-    CliUtils cliUtils = new CliUtils();
+    UserRepository userRepository = new CSVUserRepository();
+    RegisterService registerService = new RegisterService(userRepository);
+    LoginService loginService = new LoginService(userRepository);
+
     public void start() throws InterruptedException {
         System.out.println("Guten Tag! Wilkommen im Aufgabenmanager. Was möchten Sie tun?");
         System.out.println("1 - Login");
@@ -25,11 +28,11 @@ public class CliStart {
             int a = in.nextInt();
             switch (a) {
                 case 1:
-                    cliUtils.clearConsole();
+                    CliUtils.clearConsole();
                     login();
                     break;
                 case 2:
-                    cliUtils.clearConsole();
+                    CliUtils.clearConsole();
                     registrieren();
                     break;
                 case 3:
@@ -40,27 +43,24 @@ public class CliStart {
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
                     sleep(1000);
-                    cliUtils.clearConsole();
+                    CliUtils.clearConsole();
                     start();
             }
         } catch(Exception e){
             in.nextLine();
             System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
             sleep(1000);
-            cliUtils.clearConsole();
+            CliUtils.clearConsole();
             start();
         }
     }
 
-    private void registrieren() {
+    private void registrieren() throws InterruptedException {
         System.out.println("Sie können jetzt einen neuen Benutzer registrieren.");
         System.out.println("Bitte geben Sie Ihren Benutzernamen ein:");
         Scanner in = new Scanner(System.in);
         String username = in.nextLine();
 
-        UserRepository userRepository = new CSVUserRepository();
-
-        RegisterService registerService = new RegisterService(userRepository);
         while(registerService.usernameTaken(username)) {
             System.out.println("Benutzername bereits vergeben. Bitte geben Sie einen anderen Benutzernamen ein:");
             username = in.nextLine();
@@ -73,16 +73,13 @@ public class CliStart {
         login();
     }
 
-    private void login() {
+    private void login() throws InterruptedException {
         System.out.println("Login");
         System.out.println("Bitte geben Sie Ihren Benutzernamen ein:");
         Scanner in = new Scanner(System.in);
         String username = in.nextLine();
         System.out.println("Bitte geben Sie Ihr Passwort ein:");
         String password = in.nextLine();
-
-        UserRepository userRepository = new CSVUserRepository();
-        LoginService loginService = new LoginService(userRepository);
 
         while (!loginService.login(username, password)) {
             System.out.println("Fehler: Benutzername oder Passwort falsch.");
@@ -93,5 +90,8 @@ public class CliStart {
             password = in.nextLine();
         }
         System.out.println("Login erfolgreich.");
+        CliUtils.clearConsole();
+        CliMenu menu = new CliMenu(loginService.getUserId(username), username);
+        menu.start();
     }
 }
