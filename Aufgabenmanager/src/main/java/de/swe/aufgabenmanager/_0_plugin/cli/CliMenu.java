@@ -71,12 +71,13 @@ public class CliMenu {
     }
 
     private void showTasks() throws InterruptedException {
-        CliEditTasks cliEditTasks = new CliEditTasks(taskService.getTasksForUser(userId), taskService);
+        CliEditTasks cliEditTasks = new CliEditTasks(taskService.getNotCompletedTasksForUser(userId), taskService);
         cliEditTasks.showTasks();
         System.out.println();
         System.out.println("Was möchten Sie tun?");
         System.out.println("1 - Zurück zum Start");
         System.out.println("2 - Aufgabe bearbeiten");
+        System.out.println("3 - Aufgabe abschließen");
         Scanner in = new Scanner(System.in);
         try {
             int a = CliUtils.readInt();
@@ -91,6 +92,11 @@ public class CliMenu {
                     CliUtils.clearConsole();
                     showTasks();
                     break;
+                case 3:
+                    CliUtils.clearConsole();
+                    cliEditTasks.completeTask();
+                    CliUtils.clearConsole();
+                    showTasks();
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
                     sleep(1000);

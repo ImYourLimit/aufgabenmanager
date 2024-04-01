@@ -18,6 +18,12 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
 
+    public List<Task> getNotCompletedTasksForUser(Long userId) {
+        List<Task> tasks = taskRepository.findByUserId(userId);
+        tasks.removeIf(Task::isCompleted);
+        return tasks;
+    }
+
     public void addTask(Long userId, String title, String description, LocalDateTime dueDate, boolean completed, TaskPriority taskPriority) {
         Task task = new Task(generateId(), userId, title, description, dueDate, completed, taskPriority);
         taskRepository.save(task);

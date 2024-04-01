@@ -34,10 +34,27 @@ public class CliEditTasks {
         editTask(taskNumber);
     }
 
+    public void completeTask() throws InterruptedException {
+        showTasks();
+        System.out.println();
+        System.out.println("0 - Zurück");
+        System.out.println("Welche Aufgabe möchten Sie abschließen?");
+        int taskNumber = CliUtils.readInt() - 1;
+        if (taskNumber == -1) {
+            return;
+        }
+        Task task = tasks.get(taskNumber);
+        task.setCompleted(true);
+        taskService.saveTask(task);
+        tasks = taskService.getTasksForUser(task.getUserId());
+        System.out.println("Aufgabe abgeschlossen.");
+        sleep(1000);
+    }
+
     public void showTasks() {
         int i = 1;
         for (Task task : tasks) {
-            System.out.println(i + " - " + task.getTitle());
+            System.out.println(i + " - " + task.getTitle() + " - " + task.getTaskPriority() + " - " + task.getDueDate());
             i++;
         }
     }
