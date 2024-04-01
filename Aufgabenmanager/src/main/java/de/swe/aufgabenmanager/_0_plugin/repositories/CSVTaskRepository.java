@@ -52,13 +52,13 @@ public class CSVTaskRepository implements TaskRepository {
         try (FileReader in = new FileReader(CSV_FILE_PATH);
              CSVParser parser = CSVFormat.DEFAULT.withHeader(HEADERS).withFirstRecordAsHeader().parse(in)) {
             for (CSVRecord record : parser) {
-                Long id = Long.parseLong(record.get("ID"));
-                Long userId = Long.parseLong(record.get("UserId"));
-                String title = record.get("Title");
-                String description = record.get("Description");
-                LocalDateTime dueDate = LocalDateTime.parse(record.get("DueDate"));
-                boolean completed = Boolean.parseBoolean(record.get("Completed"));
-                TaskPriority taskPriority = TaskPriority.valueOf(record.get("TaskPriority"));
+                Long id = Long.parseLong(record.get(HEADERS[0]));
+                Long userId = Long.parseLong(record.get(HEADERS[1]));
+                String title = record.get(HEADERS[2]);
+                String description = record.get(HEADERS[3]);
+                LocalDateTime dueDate = LocalDateTime.parse(record.get(HEADERS[4]));
+                boolean completed = Boolean.parseBoolean(record.get(HEADERS[5]));
+                TaskPriority taskPriority = TaskPriority.valueOf(record.get(HEADERS[6]));
                 tasks.add(new Task(id, userId, title, description, dueDate, completed, taskPriority));
             }
         } catch (IOException e) {

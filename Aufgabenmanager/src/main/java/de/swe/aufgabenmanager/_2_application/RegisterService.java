@@ -1,6 +1,5 @@
 package de.swe.aufgabenmanager._2_application;
 
-import de.swe.aufgabenmanager._0_plugin.repositories.CSVUserRepository;
 import de.swe.aufgabenmanager._3_domain.entities.User;
 import de.swe.aufgabenmanager._3_domain.entities.UserRepository;
 import java.util.List;

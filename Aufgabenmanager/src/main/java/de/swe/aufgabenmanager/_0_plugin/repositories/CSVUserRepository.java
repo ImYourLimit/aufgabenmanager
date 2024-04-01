@@ -1,9 +1,7 @@
 package de.swe.aufgabenmanager._0_plugin.repositories;
 
-import de.swe.aufgabenmanager._3_domain.entities.Task;
 import de.swe.aufgabenmanager._3_domain.entities.User;
 import de.swe.aufgabenmanager._3_domain.entities.UserRepository;
-import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -12,7 +10,6 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

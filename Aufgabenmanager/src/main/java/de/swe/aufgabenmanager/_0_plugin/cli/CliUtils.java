@@ -1,6 +1,7 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class CliUtils {
     public final static void clearConsole()
@@ -17,9 +18,21 @@ public class CliUtils {
         } catch (IOException | InterruptedException e) {
 
         }
-
         for (int i = 0; i < 30; i++) {
             System.out.println();
         }
+    }
+
+    public static int readInt() {
+        Scanner in = new Scanner(System.in);
+        try {
+            int a = in.nextInt();
+            return a;
+        } catch (Exception e) {
+            in.nextLine();
+            System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
+            readInt();
+        }
+        return 0;
     }
 }
