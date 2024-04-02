@@ -7,6 +7,8 @@ import de.swe.aufgabenmanager._3_domain.entities.TaskRepository;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,6 +34,11 @@ public class CliMenu {
 
     public void start() throws InterruptedException {
         System.out.println("Willkommen " + username + "!");
+        System.out.println("Wichtige aktuelle Aufgabe:");
+        List<Task> tasks = taskService.getNotCompletedTasksForUser(userId);
+        Collections.sort(tasks, Comparator.comparing(Task::getDueDate).reversed());
+        System.out.println(tasks.get(0).getTitle() + " " + tasks.get(0).getDueDate() + " " + tasks.get(0).getTaskPriority());
+        System.out.println();
         System.out.println("Was möchten Sie tun?");
         System.out.println("1 - Aufgaben anzeigen");
         System.out.println("2 - Aufgabe Hinzufügen");

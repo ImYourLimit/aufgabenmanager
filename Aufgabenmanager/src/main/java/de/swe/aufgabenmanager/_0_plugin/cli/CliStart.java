@@ -1,8 +1,11 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
+import de.swe.aufgabenmanager._0_plugin.repositories.CSVTaskRepository;
 import de.swe.aufgabenmanager._0_plugin.repositories.CSVUserRepository;
 import de.swe.aufgabenmanager._2_application.LoginService;
 import de.swe.aufgabenmanager._2_application.RegisterService;
+import de.swe.aufgabenmanager._2_application.TaskService;
+import de.swe.aufgabenmanager._3_domain.entities.TaskRepository;
 import de.swe.aufgabenmanager._3_domain.entities.UserRepository;
 
 import java.util.Scanner;
@@ -11,9 +14,17 @@ import static java.lang.Thread.sleep;
 
 public class CliStart {
 
-    UserRepository userRepository = new CSVUserRepository();
-    RegisterService registerService = new RegisterService(userRepository);
-    LoginService loginService = new LoginService(userRepository);
+    UserRepository userRepository;
+    TaskRepository taskRepository;
+    RegisterService registerService;
+    LoginService loginService;
+    TaskService taskService;
+
+    public CliStart() {
+        this.userRepository = new CSVUserRepository();
+        this.registerService = new RegisterService(userRepository);
+        this.loginService = new LoginService(userRepository);
+    }
 
     public void start() throws InterruptedException {
         System.out.println("Guten Tag! Wilkommen im Aufgabenmanager. Was möchten Sie tun?");

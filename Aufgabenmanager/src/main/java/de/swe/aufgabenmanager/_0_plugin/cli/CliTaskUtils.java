@@ -1,8 +1,10 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
+import de.swe.aufgabenmanager._3_domain.entities.Task;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 
 public class CliTaskUtils {
@@ -62,6 +64,14 @@ public class CliTaskUtils {
                 enterTaskPriority();
         }
         return null;
+    }
+
+    public void showTasks(List<Task> tasks) {
+        int i = 1;
+        for (Task task : tasks) {
+            System.out.println(i + " - " + task.getTitle() + " - " + task.getTaskPriority() + " - " + task.getDueDate());
+            i++;
+        }
     }
 
 }

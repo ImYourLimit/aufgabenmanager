@@ -23,7 +23,7 @@ public class CliEditTasks {
     }
 
     public void editTasks() throws InterruptedException {
-        showTasks();
+        cliTaskUtils.showTasks(tasks);
         System.out.println();
         System.out.println("0 - Zurück");
         System.out.println("Welche Aufgabe möchten Sie bearbeiten?");
@@ -35,7 +35,7 @@ public class CliEditTasks {
     }
 
     public void completeTask() throws InterruptedException {
-        showTasks();
+        cliTaskUtils.showTasks(tasks);
         System.out.println();
         System.out.println("0 - Zurück");
         System.out.println("Welche Aufgabe möchten Sie abschließen?");
@@ -49,14 +49,6 @@ public class CliEditTasks {
         tasks = taskService.getTasksForUser(task.getUserId());
         System.out.println("Aufgabe abgeschlossen.");
         sleep(1000);
-    }
-
-    public void showTasks() {
-        int i = 1;
-        for (Task task : tasks) {
-            System.out.println(i + " - " + task.getTitle() + " - " + task.getTaskPriority() + " - " + task.getDueDate());
-            i++;
-        }
     }
 
     private void editTask(int taskNumber) throws InterruptedException {
