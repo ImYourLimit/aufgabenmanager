@@ -26,8 +26,10 @@ public class CliMenu {
     private IGroupRepository groupRepository;
     private IUserRepository userRepository;
     private TaskService taskService;
+    private GroupService groupService;
     private Scanner in;
     private CliTaskUtils cliTaskUtils;
+    private CliGroupUtils cliGroupUtils;
 
 
     public CliMenu(Long userId, String username) {
@@ -35,21 +37,26 @@ public class CliMenu {
         this.username = username;
 
         this.taskRepository = new TaskRepositoryImpl();
-        this.taskService = new TaskService(taskRepository);
 
         this.groupRepository = new GroupRepositoryImpl();
         this.userRepository = new UserRepositoryImpl();
 
+        this.taskService = new TaskService(taskRepository, groupRepository);
+        this.groupService = new GroupService(groupRepository, userRepository);
+
         this.in = new Scanner(System.in);
         this.cliTaskUtils = new CliTaskUtils();
+        this.cliGroupUtils = new CliGroupUtils();
     }
 
     public void start() throws InterruptedException {
         System.out.println("Willkommen " + username + "!");
-        System.out.println("Nächste Aufgabe:");
         List<Task> tasks = taskService.getNotCompletedTasksForUser(userId);
         Collections.sort(tasks, Comparator.comparing(Task::getDueDate));
-        System.out.println(tasks.get(0).getTitle() + " " + tasks.get(0).getDueDate() + " " + tasks.get(0).getTaskPriority());
+        if (tasks.size() != 0) {
+            System.out.println("Nächste Aufgabe:");
+            System.out.println(tasks.get(0).getTitle() + " " + tasks.get(0).getDueDate() + " " + tasks.get(0).getTaskPriority());
+        }
         System.out.println();
         System.out.println("Was möchten Sie tun?");
         System.out.println("1 - Aufgaben anzeigen");
@@ -148,11 +155,23 @@ public class CliMenu {
 
     private void addTask() throws InterruptedException {
         System.out.println("Neue Aufgabe erstellen.");
+        boolean isGroupTask = cliTaskUtils.enterIsGroupTask();
+        Long groupId = -1L;
+        if (isGroupTask) {
+            cliGroupUtils.showGroups(groupService.getAllGroups());
+            System.out.println();
+            System.out.println("Geben sie die ID der Gruppe ein, der die Aufgabe hinzugefügt werden soll:");
+            groupId = (long) cliTaskUtils.enterGroupId(groupService.getAllGroups());
+        }
         String title = cliTaskUtils.enterTitle();
         LocalDateTime dueDate = cliTaskUtils.enterDate();
         String description = cliTaskUtils.enterDescription();
         TaskPriority taskPriority = cliTaskUtils.enterTaskPriority();
-        taskService.addTask(userId, title, description, dueDate, false, taskPriority);
+        if (isGroupTask) {
+            taskService.addTask(-1L, groupId, title, description, dueDate, false, taskPriority);
+        } else {
+            taskService.addTask(userId, groupId, title, description, dueDate, false, taskPriority);
+        }
         System.out.println("Aufgabe erfolgreich erstellt.");
         sleep(1000);
         CliUtils.clearConsole();

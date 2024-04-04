@@ -5,9 +5,9 @@ import java.util.List;
 public class Group {
     private Long id;
     private String name;
-    private List<Integer> userIds;
+    private List<Long> userIds;
 
-    public Group(Long id, String name, List<Integer> userIds) {
+    public Group(Long id, String name, List<Long> userIds) {
         this.id = id;
         this.name = name;
         this.userIds = userIds;
@@ -29,11 +29,11 @@ public class Group {
         this.name = name;
     }
 
-    public List<Integer> getUserIds() {
+    public List<Long> getUserIds() {
         return userIds;
     }
 
-    public void setUserIds(List<Integer> users) {
+    public void setUserIds(List<Long> users) {
         this.userIds = users;
     }
 }

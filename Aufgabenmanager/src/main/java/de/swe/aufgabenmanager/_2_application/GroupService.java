@@ -17,7 +17,7 @@ public class GroupService {
         this.userRepository = userRepository;
     }
 
-    public void addGroup(String name, List<Integer> userIds) {
+    public void addGroup(String name, List<Long> userIds) {
         Group group = new Group(generateId(), name, userIds);
         groupRepository.save(group);
     }

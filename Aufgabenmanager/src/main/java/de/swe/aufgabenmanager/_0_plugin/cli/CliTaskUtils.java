@@ -1,5 +1,6 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
+import de.swe.aufgabenmanager._3_domain.entities.Group;
 import de.swe.aufgabenmanager._3_domain.entities.Task;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
@@ -64,6 +65,20 @@ public class CliTaskUtils {
                 enterTaskPriority();
         }
         return null;
+    }
+
+    public boolean enterIsGroupTask() {
+        System.out.println("Ist die Aufgabe eine Gruppenaufgabe? (1 = Ja, 2 = Nein)");
+        int isGroupTaskInt = in.nextInt();
+        in.nextLine();
+        return isGroupTaskInt == 1;
+    }
+
+    public Long enterGroupId(List<Group> groups) {
+        Long groupId = in.nextLong();
+        in.nextLine();
+        //ToDo: check if groupId is valid
+        return groupId;
     }
 
     public void showTasks(List<Task> tasks) {

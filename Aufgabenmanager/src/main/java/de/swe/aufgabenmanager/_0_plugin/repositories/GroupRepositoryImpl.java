@@ -42,6 +42,18 @@ public class GroupRepositoryImpl implements IGroupRepository {
     }
 
     @Override
+    public List<Long> findGroupIdsByUserId(Long userId) {
+        List<Group> groups = findAll();
+        List<Long> groupIds = new ArrayList<>();
+        for (Group g : groups) {
+            if (g.getUserIds().contains(userId)) {
+                groupIds.add(g.getId());
+            }
+        }
+        return groupIds;
+    }
+
+    @Override
     public List<Group> findAll() {
         List<Group> groups = new ArrayList<>();
         try (FileReader in = new FileReader(CSV_FILE_PATH);
@@ -50,12 +62,12 @@ public class GroupRepositoryImpl implements IGroupRepository {
                 Long id = Long.parseLong(record.get(HEADERS[0]));
                 String name = record.get(HEADERS[1]);
                 String usersS = record.get(HEADERS[2]);
-                List<Integer> users = new ArrayList<>();
+                List<Long> users = new ArrayList<>();
                 usersS = usersS.replace("[", "");
                 usersS = usersS.replace("]", "");
                 for (String user : usersS.split(",")) {
                     user = user.replace(" ", "");
-                    users.add(Integer.parseInt(user));
+                    users.add(Long.parseLong(user));
                 }
                 groups.add(new Group(id, name, users));
             }

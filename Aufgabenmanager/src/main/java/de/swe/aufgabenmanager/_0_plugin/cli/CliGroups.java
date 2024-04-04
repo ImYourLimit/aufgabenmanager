@@ -13,14 +13,9 @@ import java.util.Scanner;
 import static java.lang.Thread.sleep;
 
 public class CliGroups {
-
-    private IGroupRepository groupRepository;
-    private IUserRepository userRepository;
     private GroupService groupService;
 
     public CliGroups(IGroupRepository groupRepository, IUserRepository userRepository) {
-        this.groupRepository = groupRepository;
-        this.userRepository = userRepository;
         this.groupService = new GroupService(groupRepository, userRepository);
     }
     public void start() throws InterruptedException {
@@ -90,7 +85,7 @@ public class CliGroups {
         Scanner in = new Scanner(System.in);
         String name = in.nextLine();
         System.out.println();
-        List<Integer> userIds = selectUsers();
+        List<Long> userIds = selectUsers();
         groupService.addGroup(name, userIds);
     }
 
@@ -122,22 +117,22 @@ public class CliGroups {
         Scanner in = new Scanner(System.in);
         String name = in.nextLine();
         System.out.println();
-        List<Integer> userIds = selectUsers();
+        List<Long> userIds = selectUsers();
         group.setName(name);
         group.setUserIds(userIds);
         groupService.saveGroup(group);
     }
 
-    private List<Integer> selectUsers() {
+    private List<Long> selectUsers() {
         CliUtils.clearConsole();
         List<User> users = groupService.getAllUsers();
-        List<Integer> userIds = new ArrayList();
+        List<Long> userIds = new ArrayList();
         boolean finished = false;
         while(!finished) {
             showUsers(users);
             System.out.println("0 - Fertig");
             System.out.println("Wählen Sie einen Benutzer aus, den Sie hinzufügen möchten:");
-            int userId = CliUtils.readInt();
+            Long userId = (long) CliUtils.readInt();
             if (userId == 0) {
                 finished = true;
             } else if (userId > 0 && users.stream().anyMatch(u -> u.getId() == userId)) {

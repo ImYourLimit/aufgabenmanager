@@ -8,5 +8,6 @@ public interface ITaskRepository {
     public void delete(Task task);
     public Task findById(Long id);
     public List<Task> findAll();
-    public List<Task> findByUserId(Long userId);
+    List<Task> findByUserId(Long userId);
+    List<Task> findByGroupId(Long groupId);
 }
