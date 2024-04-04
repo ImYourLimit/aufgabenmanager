@@ -26,13 +26,17 @@ public class CliGroups {
         System.out.println("2 - Gruppe hinzufügen");
         System.out.println("3 - Gruppe löschen");
         System.out.println("4 - Gruppe bearbeiten");
-        System.out.println("5 - Zurück");
+        System.out.println();
+        System.out.println("0 - Zurück");
 
         Scanner in = new Scanner(System.in);
 
         try {
             int a = CliUtils.readInt();
             switch (a) {
+                case 0:
+                    CliUtils.clearConsole();
+                    return;
                 case 1:
                     CliUtils.clearConsole();
                     showGroups();
@@ -60,9 +64,6 @@ public class CliGroups {
                     CliUtils.clearConsole();
                     editGroup();
                     break;
-                case 5:
-                    CliUtils.clearConsole();
-                    return;
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
                     sleep(1000);

@@ -8,10 +8,8 @@ import de.swe.aufgabenmanager._0_plugin.repositories.TaskRepositoryImpl;
 import de.swe.aufgabenmanager._0_plugin.repositories.UserRepositoryImpl;
 import de.swe.aufgabenmanager._2_application.GroupService;
 import de.swe.aufgabenmanager._2_application.TaskService;
-import de.swe.aufgabenmanager._3_domain.entities.IGroupRepository;
-import de.swe.aufgabenmanager._3_domain.entities.IUserRepository;
-import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.entities.ITaskRepository;
+import de.swe.aufgabenmanager._2_application.UserService;
+import de.swe.aufgabenmanager._3_domain.entities.*;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
 import java.time.LocalDateTime;
@@ -24,20 +22,20 @@ import static java.lang.Thread.sleep;
 
 public class CliMenu {
     private Long userId;
-    private String username; //username über userId holen, nicht im konstuktor parameter
+    private String username;
     private ITaskRepository taskRepository;
     private IGroupRepository groupRepository;
     private IUserRepository userRepository;
     private TaskService taskService;
     private GroupService groupService;
+    private UserService userService;
     private Scanner in;
     private CliTaskUtils cliTaskUtils;
     private CliGroupUtils cliGroupUtils;
 
 
-    public CliMenu(Long userId, String username) {
+    public CliMenu(Long userId) {
         this.userId = userId;
-        this.username = username;
 
         this.taskRepository = new TaskRepositoryImpl();
 
@@ -46,6 +44,9 @@ public class CliMenu {
 
         this.taskService = new TaskService(taskRepository, groupRepository);
         this.groupService = new GroupService(groupRepository, userRepository);
+        this.userService = new UserService(userRepository);
+
+        this.username = userService.getUsername(userId);
 
         this.in = new Scanner(System.in);
         this.cliTaskUtils = new CliTaskUtils();
@@ -65,13 +66,19 @@ public class CliMenu {
         System.out.println("1 - Aufgaben anzeigen");
         System.out.println("2 - Aufgabe Hinzufügen");
         System.out.println("3 - Gruppen verwalten");
-        System.out.println("4 - Beenden");
+        System.out.println();
+        System.out.println("0 - Beenden");
 
         Scanner in = new Scanner(System.in);
 
         try {
             int a = CliUtils.readInt();
             switch (a) {
+                case 0:
+                    System.out.println("Auf Wiedersehen!");
+                    sleep(1000);
+                    System.exit(0);
+                    break;
                 case 1:
                     CliUtils.clearConsole();
                     showTasks();
@@ -84,11 +91,6 @@ public class CliMenu {
                     CliUtils.clearConsole();
                     CliGroups cliGroups = new CliGroups(groupRepository, userRepository);
                     cliGroups.start();
-                    break;
-                case 4:
-                    System.out.println("Auf Wiedersehen!");
-                    sleep(1000);
-                    System.exit(0);
                     break;
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
@@ -111,31 +113,32 @@ public class CliMenu {
         cliTaskUtils.showTasks(taskService.getNotCompletedTasksForUser(userId));
         System.out.println();
         System.out.println("Was möchten Sie tun?");
-        System.out.println("1 - Zurück zum Start");
-        System.out.println("2 - Aufgabe bearbeiten");
-        System.out.println("3 - Aufgaben Details anzeigen");
-        System.out.println("4 - Aufgabe abschließen");
+        System.out.println("1 - Aufgabe bearbeiten");
+        System.out.println("2 - Aufgaben Details anzeigen");
+        System.out.println("3 - Aufgabe abschließen");
+        System.out.println();
+        System.out.println("0 - Zurück zum Start");
         Scanner in = new Scanner(System.in);
         try {
             int a = CliUtils.readInt();
             switch (a) {
-                case 1:
+                case 0:
                     CliUtils.clearConsole();
                     start();
                     break;
-                case 2:
+                case 1:
                     CliUtils.clearConsole();
                     cliEditTasks.editTasks();
                     CliUtils.clearConsole();
                     showTasks();
                     break;
-                case 3:
+                case 2:
                     CliUtils.clearConsole();
                     CliShowTasks cliShowTasks = new CliShowTasks(taskService.getNotCompletedTasksForUser(userId), taskService);
                     cliShowTasks.start();
                     showTasks();
                     break;
-                case 4:
+                case 3:
                     CliUtils.clearConsole();
                     cliEditTasks.completeTask();
                     CliUtils.clearConsole();
