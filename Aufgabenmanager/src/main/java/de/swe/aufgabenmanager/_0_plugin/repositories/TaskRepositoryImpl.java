@@ -1,7 +1,7 @@
 package de.swe.aufgabenmanager._0_plugin.repositories;
 
 import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.entities.TaskRepository;
+import de.swe.aufgabenmanager._3_domain.entities.ITaskRepository;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVTaskRepository implements TaskRepository {
+public class TaskRepositoryImpl implements ITaskRepository {
 
     private static final String CSV_FILE_PATH = "src/main/resources/csv/tasks.csv";
     private static final String[] HEADERS = {"ID", "UserId", "Title", "Description", "DueDate", "Completed", "TaskPriority"};

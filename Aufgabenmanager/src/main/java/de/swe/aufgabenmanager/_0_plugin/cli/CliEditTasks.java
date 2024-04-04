@@ -58,7 +58,8 @@ public class CliEditTasks {
         System.out.println("2 - Beschreibung");
         System.out.println("3 - Fälligkeitsdatum");
         System.out.println("4 - Priorität");
-        System.out.println("5 - Zurück");
+        System.out.println("5 - Löschen");
+        System.out.println("6 - Zurück");
         int a = CliUtils.readInt();
         switch (a) {
             case 1:
@@ -84,6 +85,10 @@ public class CliEditTasks {
                 System.out.println("Priorität geändert.");
                 break;
             case 5:
+                taskService.deleteTask(task);
+                System.out.println("Aufgabe gelöscht.");
+                break;
+            case 6:
                 break;
             default:
                 System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");

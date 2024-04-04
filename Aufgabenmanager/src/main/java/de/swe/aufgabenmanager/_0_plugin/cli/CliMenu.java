@@ -1,9 +1,9 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
-import de.swe.aufgabenmanager._0_plugin.repositories.CSVTaskRepository;
+import de.swe.aufgabenmanager._0_plugin.repositories.TaskRepositoryImpl;
 import de.swe.aufgabenmanager._2_application.TaskService;
 import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.entities.TaskRepository;
+import de.swe.aufgabenmanager._3_domain.entities.ITaskRepository;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import static java.lang.Thread.sleep;
 public class CliMenu {
     private Long userId;
     private String username; //username über userId holen, nicht im konstuktor parameter
-    private TaskRepository taskRepository;
+    private ITaskRepository ITaskRepository;
     private TaskService taskService;
     private Scanner in;
     private CliTaskUtils cliTaskUtils;
@@ -26,17 +26,17 @@ public class CliMenu {
     public CliMenu(Long userId, String username) {
         this.userId = userId;
         this.username = username;
-        taskRepository = new CSVTaskRepository();
-        taskService = new TaskService(taskRepository);
+        ITaskRepository = new TaskRepositoryImpl();
+        taskService = new TaskService(ITaskRepository);
         this.in = new Scanner(System.in);
         this.cliTaskUtils = new CliTaskUtils();
     }
 
     public void start() throws InterruptedException {
         System.out.println("Willkommen " + username + "!");
-        System.out.println("Wichtige aktuelle Aufgabe:");
+        System.out.println("Nächste Aufgabe:");
         List<Task> tasks = taskService.getNotCompletedTasksForUser(userId);
-        Collections.sort(tasks, Comparator.comparing(Task::getDueDate).reversed());
+        Collections.sort(tasks, Comparator.comparing(Task::getDueDate));
         System.out.println(tasks.get(0).getTitle() + " " + tasks.get(0).getDueDate() + " " + tasks.get(0).getTaskPriority());
         System.out.println();
         System.out.println("Was möchten Sie tun?");
@@ -79,12 +79,13 @@ public class CliMenu {
 
     private void showTasks() throws InterruptedException {
         CliEditTasks cliEditTasks = new CliEditTasks(taskService.getNotCompletedTasksForUser(userId), taskService);
-        cliEditTasks.showTasks();
+        cliTaskUtils.showTasks(taskService.getNotCompletedTasksForUser(userId));
         System.out.println();
         System.out.println("Was möchten Sie tun?");
         System.out.println("1 - Zurück zum Start");
         System.out.println("2 - Aufgabe bearbeiten");
-        System.out.println("3 - Aufgabe abschließen");
+        System.out.println("3 - Aufgaben Details anzeigen");
+        System.out.println("4 - Aufgabe abschließen");
         Scanner in = new Scanner(System.in);
         try {
             int a = CliUtils.readInt();
@@ -101,9 +102,16 @@ public class CliMenu {
                     break;
                 case 3:
                     CliUtils.clearConsole();
+                    CliShowTasks cliShowTasks = new CliShowTasks(taskService.getNotCompletedTasksForUser(userId), taskService);
+                    cliShowTasks.start();
+                    showTasks();
+                    break;
+                case 4:
+                    CliUtils.clearConsole();
                     cliEditTasks.completeTask();
                     CliUtils.clearConsole();
                     showTasks();
+                    break;
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
                     sleep(1000);

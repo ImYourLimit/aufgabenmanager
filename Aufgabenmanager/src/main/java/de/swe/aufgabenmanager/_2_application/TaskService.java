@@ -1,40 +1,44 @@
 package de.swe.aufgabenmanager._2_application;
 
 import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.entities.TaskRepository;
+import de.swe.aufgabenmanager._3_domain.entities.ITaskRepository;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class TaskService {
-    TaskRepository taskRepository;
+    ITaskRepository ITaskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public TaskService(ITaskRepository ITaskRepository) {
+        this.ITaskRepository = ITaskRepository;
     }
 
     public List<Task> getTasksForUser(Long userId) {
-        return taskRepository.findByUserId(userId);
+        return ITaskRepository.findByUserId(userId);
     }
 
     public List<Task> getNotCompletedTasksForUser(Long userId) {
-        List<Task> tasks = taskRepository.findByUserId(userId);
+        List<Task> tasks = ITaskRepository.findByUserId(userId);
         tasks.removeIf(Task::isCompleted);
         return tasks;
     }
 
     public void addTask(Long userId, String title, String description, LocalDateTime dueDate, boolean completed, TaskPriority taskPriority) {
         Task task = new Task(generateId(), userId, title, description, dueDate, completed, taskPriority);
-        taskRepository.save(task);
+        ITaskRepository.save(task);
     }
 
     public void saveTask(Task task) {
-        taskRepository.save(task);
+        ITaskRepository.save(task);
+    }
+
+    public void deleteTask(Task task) {
+        ITaskRepository.delete(task);
     }
 
     private Long generateId() {
-        List<Task> tasks = taskRepository.findAll();
+        List<Task> tasks = ITaskRepository.findAll();
         Long maxId = 0L;
         for (Task t : tasks) {
             if (t.getId() > maxId) {

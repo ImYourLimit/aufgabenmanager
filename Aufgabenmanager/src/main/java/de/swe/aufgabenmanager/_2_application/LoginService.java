@@ -1,19 +1,19 @@
 package de.swe.aufgabenmanager._2_application;
 
 import de.swe.aufgabenmanager._3_domain.entities.User;
-import de.swe.aufgabenmanager._3_domain.entities.UserRepository;
+import de.swe.aufgabenmanager._3_domain.entities.IUserRepository;
 
 import java.util.List;
 
 public class LoginService {
 
-    UserRepository userRepository;;
-    public LoginService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    IUserRepository IUserRepository;;
+    public LoginService(IUserRepository IUserRepository) {
+        this.IUserRepository = IUserRepository;
     }
 
     public boolean login(String username, String password) {
-        List<User> users = userRepository.findAll();
+        List<User> users = IUserRepository.findAll();
         for (User u : users) {
             if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
                 return true;
@@ -23,7 +23,7 @@ public class LoginService {
     }
 
     public Long getUserId(String username) {
-        List<User> users = userRepository.findAll();
+        List<User> users = IUserRepository.findAll();
         for (User u : users) {
             if (u.getUsername().equals(username)) {
                 return u.getId();

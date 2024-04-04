@@ -2,7 +2,7 @@ package de.swe.aufgabenmanager._3_domain.entities;
 
 import java.util.List;
 
-public interface TaskRepository {
+public interface ITaskRepository {
 
     public void save(Task task);
     public void delete(Task task);

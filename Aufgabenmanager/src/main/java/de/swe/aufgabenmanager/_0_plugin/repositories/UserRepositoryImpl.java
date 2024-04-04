@@ -1,7 +1,7 @@
 package de.swe.aufgabenmanager._0_plugin.repositories;
 
 import de.swe.aufgabenmanager._3_domain.entities.User;
-import de.swe.aufgabenmanager._3_domain.entities.UserRepository;
+import de.swe.aufgabenmanager._3_domain.entities.IUserRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVUserRepository implements UserRepository {
+public class UserRepositoryImpl implements IUserRepository {
 
     private static final String CSV_FILE_PATH = "src/main/resources/csv/users.csv";
     private static final String[] HEADERS = {"ID", "Username", "Password"};
