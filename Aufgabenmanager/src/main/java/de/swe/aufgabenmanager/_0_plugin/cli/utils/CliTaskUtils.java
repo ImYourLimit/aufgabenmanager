@@ -1,4 +1,4 @@
-package de.swe.aufgabenmanager._0_plugin.cli;
+package de.swe.aufgabenmanager._0_plugin.cli.utils;
 
 import de.swe.aufgabenmanager._3_domain.entities.Group;
 import de.swe.aufgabenmanager._3_domain.entities.Task;

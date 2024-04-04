@@ -1,8 +1,9 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
+import de.swe.aufgabenmanager._0_plugin.cli.utils.CliTaskUtils;
+import de.swe.aufgabenmanager._0_plugin.cli.utils.CliUtils;
 import de.swe.aufgabenmanager._2_application.TaskService;
 import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
 import java.util.List;
 import java.util.Scanner;

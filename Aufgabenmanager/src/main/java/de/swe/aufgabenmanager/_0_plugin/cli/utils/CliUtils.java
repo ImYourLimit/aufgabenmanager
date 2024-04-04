@@ -1,4 +1,4 @@
-package de.swe.aufgabenmanager._0_plugin.cli;
+package de.swe.aufgabenmanager._0_plugin.cli.utils;
 
 import java.io.IOException;
 import java.util.Scanner;

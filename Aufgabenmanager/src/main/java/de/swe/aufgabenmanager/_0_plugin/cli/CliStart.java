@@ -1,5 +1,6 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
+import de.swe.aufgabenmanager._0_plugin.cli.utils.CliUtils;
 import de.swe.aufgabenmanager._0_plugin.repositories.UserRepositoryImpl;
 import de.swe.aufgabenmanager._2_application.LoginService;
 import de.swe.aufgabenmanager._2_application.RegisterService;
