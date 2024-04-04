@@ -36,17 +36,6 @@ public class TaskRepositoryImpl implements ITaskRepository {
     }
 
     @Override
-    public Task findById(Long id) {
-        List<Task> tasks = findAll();
-        for (Task t : tasks) {
-            if (t.getId().equals(id)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    @Override
     public List<Task> findAll() {
         List<Task> tasks = new ArrayList<>();
         try (FileReader in = new FileReader(CSV_FILE_PATH);
