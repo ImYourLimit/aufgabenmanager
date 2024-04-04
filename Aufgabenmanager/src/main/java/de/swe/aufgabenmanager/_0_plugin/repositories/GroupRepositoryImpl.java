@@ -2,8 +2,6 @@ package de.swe.aufgabenmanager._0_plugin.repositories;
 
 import de.swe.aufgabenmanager._3_domain.entities.Group;
 import de.swe.aufgabenmanager._3_domain.entities.IGroupRepository;
-import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.entities.User;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -18,21 +16,21 @@ import java.util.List;
 public class GroupRepositoryImpl implements IGroupRepository {
 
     private static final String CSV_FILE_PATH = "src/main/resources/csv/groups.csv";
-    private static final String[] HEADERS = {"ID", "Name", "Users"};
+    private static final String[] HEADERS = {"ID", "Name", "UserIds"};
 
 
     @Override
-    public void save(Group task) {
+    public void save(Group group) {
         List<Group> groups = findAll();
-        groups.removeIf(g -> g.getId().equals(task.getId()));
-        groups.add(task);
+        groups.removeIf(g -> g.getId().equals(group.getId()));
+        groups.add(group);
         writeToCsv(groups);
     }
 
     @Override
-    public void delete(Group task) {
+    public void delete(Group group) {
         List<Group> groups = findAll();
-        groups.removeIf(g -> g.getId().equals(task.getId()));
+        groups.removeIf(g -> g.getId().equals(group.getId()));
         writeToCsv(groups);
     }
 
@@ -40,7 +38,7 @@ public class GroupRepositoryImpl implements IGroupRepository {
     public Group findById(Long id) {
         List<Group> groups = findAll();
         groups.removeIf(g -> !g.getId().equals(id));
-        return null;
+        return groups.isEmpty() ? null : groups.get(0);
     }
 
     @Override
@@ -52,8 +50,11 @@ public class GroupRepositoryImpl implements IGroupRepository {
                 Long id = Long.parseLong(record.get(HEADERS[0]));
                 String name = record.get(HEADERS[1]);
                 String usersS = record.get(HEADERS[2]);
-                List<int> users = new ArrayList();
+                List<Integer> users = new ArrayList<>();
+                usersS = usersS.replace("[", "");
+                usersS = usersS.replace("]", "");
                 for (String user : usersS.split(",")) {
+                    user = user.replace(" ", "");
                     users.add(Integer.parseInt(user));
                 }
                 groups.add(new Group(id, name, users));
@@ -68,7 +69,7 @@ public class GroupRepositoryImpl implements IGroupRepository {
         try (FileWriter out = new FileWriter(CSV_FILE_PATH);
              CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(HEADERS))) {
             for (Group g : groups) {
-                printer.printRecord(g.getId(), g.getName(), g.getUsers());
+                printer.printRecord(g.getId(), g.getName(), g.getUserIds());
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -5,12 +5,12 @@ import java.util.List;
 public class Group {
     private Long id;
     private String name;
-    private List<int> users;
+    private List<Integer> userIds;
 
-    public Group(Long id, String name, List<int> users) {
+    public Group(Long id, String name, List<Integer> userIds) {
         this.id = id;
         this.name = name;
-        this.users = users;
+        this.userIds = userIds;
     }
 
     public Long getId() {
@@ -29,11 +29,11 @@ public class Group {
         this.name = name;
     }
 
-    public List<int> getUsers() {
-        return users;
+    public List<Integer> getUserIds() {
+        return userIds;
     }
 
-    public void setUsers(List<int> users) {
-        this.users = users;
+    public void setUserIds(List<Integer> users) {
+        this.userIds = users;
     }
 }

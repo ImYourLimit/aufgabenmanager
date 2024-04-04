@@ -5,3 +5,4 @@ ID,UserId,Title,Description,DueDate,Completed,TaskPriority
 2,1,Test Task 2,Test Description 2,2024-03-28T16:56:03.402441700,true,LOW
 3,1,Test Task 3,Test Description 3,2024-03-28T16:56:03.402441700,true,MEDIUM
 1,1,Test Task,Test Description,2024-04-04T09:52:15.415437700,false,HIGH
+7,1,TestAufgabe,hier ist ein text,2024-04-20T08:10,false,HIGH
