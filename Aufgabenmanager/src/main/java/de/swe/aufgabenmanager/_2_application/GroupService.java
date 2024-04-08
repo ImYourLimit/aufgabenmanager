@@ -42,6 +42,9 @@ public class GroupService {
         return userRepository.findAll();
     }
 
+    public boolean isIdValid(Long id) {
+        return groupRepository.findById(id) != null;
+    }
     private Long generateId() {
         List<Group> groups = groupRepository.findAll();
         Long maxId = 0L;

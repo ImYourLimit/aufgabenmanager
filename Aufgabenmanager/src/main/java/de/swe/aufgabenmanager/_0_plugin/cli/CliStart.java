@@ -2,8 +2,7 @@ package de.swe.aufgabenmanager._0_plugin.cli;
 
 import de.swe.aufgabenmanager._0_plugin.cli.utils.CliUtils;
 import de.swe.aufgabenmanager._0_plugin.repositories.UserRepositoryImpl;
-import de.swe.aufgabenmanager._2_application.LoginService;
-import de.swe.aufgabenmanager._2_application.RegisterService;
+import de.swe.aufgabenmanager._2_application.UserService;
 import de.swe.aufgabenmanager._3_domain.entities.IUserRepository;
 
 import java.util.Scanner;
@@ -12,14 +11,12 @@ import static java.lang.Thread.sleep;
 
 public class CliStart {
 
-    IUserRepository IUserRepository;
-    RegisterService registerService;
-    LoginService loginService;
+    IUserRepository userRepository;
+    UserService userService;
 
     public CliStart() {
-        this.IUserRepository = new UserRepositoryImpl();
-        this.registerService = new RegisterService(IUserRepository);
-        this.loginService = new LoginService(IUserRepository);
+        this.userRepository = new UserRepositoryImpl();
+        this.userService = new UserService(userRepository);
     }
 
     public void start() throws InterruptedException {
@@ -69,14 +66,14 @@ public class CliStart {
         Scanner in = new Scanner(System.in);
         String username = in.nextLine();
 
-        while(registerService.usernameTaken(username)) {
+        while(userService.usernameTaken(username)) {
             System.out.println("Benutzername bereits vergeben. Bitte geben Sie einen anderen Benutzernamen ein:");
             username = in.nextLine();
         }
         System.out.println("Bitte geben Sie Ihr Passwort ein:");
         String password = in.nextLine();
 
-        registerService.register(username, password);
+        userService.register(username, password);
         System.out.println("Benutzer erfolgreich registriert.");
         login();
     }
@@ -89,7 +86,7 @@ public class CliStart {
         System.out.println("Bitte geben Sie Ihr Passwort ein:");
         String password = in.nextLine();
 
-        while (!loginService.login(username, password)) {
+        while (!userService.login(username, password)) {
             System.out.println("Fehler: Benutzername oder Passwort falsch.");
             System.out.println("Bitte versuchen Sie es erneut.");
             System.out.println("Bitte geben Sie Ihren Benutzernamen ein:");
@@ -99,7 +96,7 @@ public class CliStart {
         }
         System.out.println("Login erfolgreich.");
         CliUtils.clearConsole();
-        CliMenu menu = new CliMenu(loginService.getUserId(username));
+        CliMenu menu = new CliMenu(userService.getUserId(username));
         menu.start();
     }
 }

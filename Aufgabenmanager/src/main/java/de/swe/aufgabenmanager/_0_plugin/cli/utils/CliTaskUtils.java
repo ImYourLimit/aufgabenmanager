@@ -74,13 +74,6 @@ public class CliTaskUtils {
         return isGroupTaskInt == 1;
     }
 
-    public Long enterGroupId(List<Group> groups) {
-        Long groupId = in.nextLong();
-        in.nextLine();
-        //ToDo: check if groupId is valid
-        return groupId;
-    }
-
     public void showTasks(List<Task> tasks) {
         int i = 1;
         for (Task task : tasks) {

@@ -29,9 +29,8 @@ public class CliMenu {
     private TaskService taskService;
     private GroupService groupService;
     private UserService userService;
-    private Scanner in;
-    private CliTaskUtils cliTaskUtils;
-    private CliGroupUtils cliGroupUtils;
+    private CliGroups cliGroups;
+    private CliTask cliTask;
 
 
     public CliMenu(Long userId) {
@@ -46,11 +45,10 @@ public class CliMenu {
         this.groupService = new GroupService(groupRepository, userRepository);
         this.userService = new UserService(userRepository);
 
-        this.username = userService.getUsername(userId);
+        this.cliGroups = new CliGroups(groupRepository, userRepository);
+        this.cliTask = new CliTask(userId, taskService.getNotCompletedTasksForUser(userId), taskService, groupService);
 
-        this.in = new Scanner(System.in);
-        this.cliTaskUtils = new CliTaskUtils();
-        this.cliGroupUtils = new CliGroupUtils();
+        this.username = userService.getUsername(userId);
     }
 
     public void start() throws InterruptedException {
@@ -81,15 +79,15 @@ public class CliMenu {
                     break;
                 case 1:
                     CliUtils.clearConsole();
-                    showTasks();
+                    cliTask = new CliTask(userId, tasks, taskService, groupService);
+                    cliTask.start();
                     break;
                 case 2:
                     CliUtils.clearConsole();
-                    addTask();
+                    cliTask.addTask();
                     break;
                 case 3:
                     CliUtils.clearConsole();
-                    CliGroups cliGroups = new CliGroups(groupRepository, userRepository);
                     cliGroups.start();
                     break;
                 default:
@@ -106,80 +104,5 @@ public class CliMenu {
             start();
         }
         start();
-    }
-
-    private void showTasks() throws InterruptedException {
-        CliEditTasks cliEditTasks = new CliEditTasks(taskService.getNotCompletedTasksForUser(userId), taskService);
-        cliTaskUtils.showTasks(taskService.getNotCompletedTasksForUser(userId));
-        System.out.println();
-        System.out.println("Was möchten Sie tun?");
-        System.out.println("1 - Aufgabe bearbeiten");
-        System.out.println("2 - Aufgaben Details anzeigen");
-        System.out.println("3 - Aufgabe abschließen");
-        System.out.println();
-        System.out.println("0 - Zurück zum Start");
-        Scanner in = new Scanner(System.in);
-        try {
-            int a = CliUtils.readInt();
-            switch (a) {
-                case 0:
-                    CliUtils.clearConsole();
-                    start();
-                    break;
-                case 1:
-                    CliUtils.clearConsole();
-                    cliEditTasks.editTasks();
-                    CliUtils.clearConsole();
-                    showTasks();
-                    break;
-                case 2:
-                    CliUtils.clearConsole();
-                    CliShowTasks cliShowTasks = new CliShowTasks(taskService.getNotCompletedTasksForUser(userId), taskService);
-                    cliShowTasks.start();
-                    showTasks();
-                    break;
-                case 3:
-                    CliUtils.clearConsole();
-                    cliEditTasks.completeTask();
-                    CliUtils.clearConsole();
-                    showTasks();
-                    break;
-                default:
-                    System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
-                    sleep(1000);
-                    CliUtils.clearConsole();
-                    showTasks();
-            }
-        } catch (Exception e) {
-            in.nextLine();
-            System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            sleep(1000);
-            CliUtils.clearConsole();
-            showTasks();
-        }
-    }
-
-    private void addTask() throws InterruptedException {
-        System.out.println("Neue Aufgabe erstellen.");
-        boolean isGroupTask = cliTaskUtils.enterIsGroupTask();
-        Long groupId = -1L;
-        if (isGroupTask) {
-            cliGroupUtils.showGroups(groupService.getAllGroups());
-            System.out.println();
-            System.out.println("Geben sie die ID der Gruppe ein, der die Aufgabe hinzugefügt werden soll:");
-            groupId = (long) cliTaskUtils.enterGroupId(groupService.getAllGroups());
-        }
-        String title = cliTaskUtils.enterTitle();
-        LocalDateTime dueDate = cliTaskUtils.enterDate();
-        String description = cliTaskUtils.enterDescription();
-        TaskPriority taskPriority = cliTaskUtils.enterTaskPriority();
-        if (isGroupTask) {
-            taskService.addTask(-1L, groupId, title, description, dueDate, false, taskPriority);
-        } else {
-            taskService.addTask(userId, groupId, title, description, dueDate, false, taskPriority);
-        }
-        System.out.println("Aufgabe erfolgreich erstellt.");
-        sleep(1000);
-        CliUtils.clearConsole();
     }
 }
