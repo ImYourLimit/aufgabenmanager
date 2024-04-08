@@ -18,7 +18,7 @@ import java.util.List;
 public class TaskRepositoryImpl implements ITaskRepository {
 
     private static final String CSV_FILE_PATH = "src/main/resources/csv/tasks.csv";
-    private static final String[] HEADERS = {"ID", "UserId", "Title", "Description", "DueDate", "Completed", "TaskPriority"};
+    private static final String[] HEADERS = {"ID", "UserId", "GroupId", "Title", "Description", "DueDate", "Completed", "TaskPriority"};
 
     @Override
     public void save(Task task) {
@@ -36,17 +36,6 @@ public class TaskRepositoryImpl implements ITaskRepository {
     }
 
     @Override
-    public Task findById(Long id) {
-        List<Task> tasks = findAll();
-        for (Task t : tasks) {
-            if (t.getId().equals(id)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    @Override
     public List<Task> findAll() {
         List<Task> tasks = new ArrayList<>();
         try (FileReader in = new FileReader(CSV_FILE_PATH);
@@ -54,12 +43,13 @@ public class TaskRepositoryImpl implements ITaskRepository {
             for (CSVRecord record : parser) {
                 Long id = Long.parseLong(record.get(HEADERS[0]));
                 Long userId = Long.parseLong(record.get(HEADERS[1]));
-                String title = record.get(HEADERS[2]);
-                String description = record.get(HEADERS[3]);
-                LocalDateTime dueDate = LocalDateTime.parse(record.get(HEADERS[4]));
-                boolean completed = Boolean.parseBoolean(record.get(HEADERS[5]));
-                TaskPriority taskPriority = TaskPriority.valueOf(record.get(HEADERS[6]));
-                tasks.add(new Task(id, userId, title, description, dueDate, completed, taskPriority));
+                Long groupId = Long.parseLong(record.get(HEADERS[2]));
+                String title = record.get(HEADERS[3]);
+                String description = record.get(HEADERS[4]);
+                LocalDateTime dueDate = LocalDateTime.parse(record.get(HEADERS[5]));
+                boolean completed = Boolean.parseBoolean(record.get(HEADERS[6]));
+                TaskPriority taskPriority = TaskPriority.valueOf(record.get(HEADERS[7]));
+                tasks.add(new Task(id, userId, groupId, title, description, dueDate, completed, taskPriority));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,11 +64,18 @@ public class TaskRepositoryImpl implements ITaskRepository {
         return tasks;
     }
 
+    @Override
+    public List<Task> findByGroupId(Long groupId) {
+        List<Task> tasks = findAll();
+        tasks.removeIf(t -> !t.getGroupId().equals(groupId));
+        return tasks;
+    }
+
     private void writeToCsv(List<Task> tasks) {
         try (FileWriter out = new FileWriter(CSV_FILE_PATH);
              CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(HEADERS))) {
             for (Task t : tasks) {
-                printer.printRecord(t.getId(), t.getUserId(), t.getTitle(), t.getDescription(), t.getDueDate(), t.isCompleted(), t.getTaskPriority());
+                printer.printRecord(t.getId(), t.getUserId(), t.getGroupId(), t.getTitle(), t.getDescription(), t.getDueDate(), t.isCompleted(), t.getTaskPriority());
             }
         } catch (IOException e) {
             e.printStackTrace();

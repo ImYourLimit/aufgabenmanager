@@ -10,10 +10,6 @@ import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        Task task = new Task(1L, 1L, "Test Task", "Test Description", LocalDateTime.now(), false, TaskPriority.HIGH);
-        ITaskRepository ITaskRepository = new TaskRepositoryImpl();
-        ITaskRepository.save(task);
-
         CliStart cliStart = new CliStart();
         cliStart.start();
     }

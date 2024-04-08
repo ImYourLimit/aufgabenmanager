@@ -27,13 +27,6 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public void delete(User user) {
-        List<User> users = findAll();
-        users.removeIf(u -> u.getId().equals(user.getId()));
-        writeToCsv(users);
-    }
-
-    @Override
     public User findById(Long id) {
         List<User> users = findAll();
         for (User u : users) {
