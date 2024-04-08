@@ -1,7 +1,7 @@
 package de.swe.aufgabenmanager._0_plugin.repositories;
 
 import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.entities.ITaskRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.ITaskRepository;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;

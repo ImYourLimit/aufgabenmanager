@@ -1,7 +1,5 @@
 package de.swe.aufgabenmanager._0_plugin.cli;
 
-import de.swe.aufgabenmanager._0_plugin.cli.utils.CliGroupUtils;
-import de.swe.aufgabenmanager._0_plugin.cli.utils.CliTaskUtils;
 import de.swe.aufgabenmanager._0_plugin.cli.utils.CliUtils;
 import de.swe.aufgabenmanager._0_plugin.repositories.GroupRepositoryImpl;
 import de.swe.aufgabenmanager._0_plugin.repositories.TaskRepositoryImpl;
@@ -10,9 +8,10 @@ import de.swe.aufgabenmanager._2_application.GroupService;
 import de.swe.aufgabenmanager._2_application.TaskService;
 import de.swe.aufgabenmanager._2_application.UserService;
 import de.swe.aufgabenmanager._3_domain.entities.*;
-import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
+import de.swe.aufgabenmanager._3_domain.interfaces.IGroupRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.ITaskRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IUserRepository;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

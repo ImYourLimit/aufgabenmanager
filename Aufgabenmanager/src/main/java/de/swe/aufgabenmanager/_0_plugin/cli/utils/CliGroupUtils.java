@@ -4,8 +4,8 @@ import de.swe.aufgabenmanager._0_plugin.repositories.GroupRepositoryImpl;
 import de.swe.aufgabenmanager._0_plugin.repositories.UserRepositoryImpl;
 import de.swe.aufgabenmanager._2_application.GroupService;
 import de.swe.aufgabenmanager._3_domain.entities.Group;
-import de.swe.aufgabenmanager._3_domain.entities.IGroupRepository;
-import de.swe.aufgabenmanager._3_domain.entities.IUserRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IGroupRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IUserRepository;
 
 import java.util.List;
 import java.util.Scanner;

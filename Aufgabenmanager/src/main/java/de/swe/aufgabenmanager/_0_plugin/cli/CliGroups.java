@@ -3,8 +3,8 @@ package de.swe.aufgabenmanager._0_plugin.cli;
 import de.swe.aufgabenmanager._0_plugin.cli.utils.CliUtils;
 import de.swe.aufgabenmanager._2_application.GroupService;
 import de.swe.aufgabenmanager._3_domain.entities.Group;
-import de.swe.aufgabenmanager._3_domain.entities.IGroupRepository;
-import de.swe.aufgabenmanager._3_domain.entities.IUserRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IGroupRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IUserRepository;
 import de.swe.aufgabenmanager._3_domain.entities.User;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package de.swe.aufgabenmanager._0_plugin.cli;
 import de.swe.aufgabenmanager._0_plugin.cli.utils.CliUtils;
 import de.swe.aufgabenmanager._0_plugin.repositories.UserRepositoryImpl;
 import de.swe.aufgabenmanager._2_application.UserService;
-import de.swe.aufgabenmanager._3_domain.entities.IUserRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IUserRepository;
 
 import java.util.Scanner;
 
