@@ -1,4 +1,4 @@
-package de.swe.aufgabenmanager._3_domain.entities;
+package de.swe.aufgabenmanager._3_domain.interfaces;
 
 import java.util.List;
 

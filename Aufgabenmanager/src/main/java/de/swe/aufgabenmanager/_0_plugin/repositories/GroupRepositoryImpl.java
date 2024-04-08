@@ -1,7 +1,7 @@
 package de.swe.aufgabenmanager._0_plugin.repositories;
 
 import de.swe.aufgabenmanager._3_domain.entities.Group;
-import de.swe.aufgabenmanager._3_domain.entities.IGroupRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IGroupRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;

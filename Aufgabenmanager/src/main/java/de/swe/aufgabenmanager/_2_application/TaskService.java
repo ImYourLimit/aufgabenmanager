@@ -1,8 +1,8 @@
 package de.swe.aufgabenmanager._2_application;
 
-import de.swe.aufgabenmanager._3_domain.entities.IGroupRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.IGroupRepository;
 import de.swe.aufgabenmanager._3_domain.entities.Task;
-import de.swe.aufgabenmanager._3_domain.entities.ITaskRepository;
+import de.swe.aufgabenmanager._3_domain.interfaces.ITaskRepository;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
 import java.time.LocalDateTime;
