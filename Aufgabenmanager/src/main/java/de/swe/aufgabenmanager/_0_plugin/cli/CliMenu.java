@@ -31,14 +31,12 @@ public class CliMenu {
     private CliGroups cliGroups;
     private CliTask cliTask;
 
-    public CliMenu(Long userId) {
+    public CliMenu(Long userId, String csv_file_path_tasks, String csv_file_path_groups, String csv_file_path_users) {
         this.userId = userId;
 
-        this.taskRepository = new TaskRepositoryImpl();
-
-        String CSV_FILE_PATH_GROUPS = "src/main/resources/csv/groups.csv";
-        this.groupRepository = new GroupRepositoryImpl(CSV_FILE_PATH_GROUPS);
-        this.userRepository = new UserRepositoryImpl();
+        this.taskRepository = new TaskRepositoryImpl(csv_file_path_tasks);
+        this.groupRepository = new GroupRepositoryImpl(csv_file_path_groups);
+        this.userRepository = new UserRepositoryImpl(csv_file_path_users);
 
         this.taskService = new TaskService(taskRepository, groupRepository);
         this.groupService = new GroupService(groupRepository, userRepository);

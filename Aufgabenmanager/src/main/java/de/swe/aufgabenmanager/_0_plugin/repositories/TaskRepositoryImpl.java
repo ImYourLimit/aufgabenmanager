@@ -17,8 +17,12 @@ import java.util.List;
 
 public class TaskRepositoryImpl implements ITaskRepository {
 
-    private static final String CSV_FILE_PATH = "src/main/resources/csv/tasks.csv";
+    private final String CSV_FILE_PATH;
     private static final String[] HEADERS = {"ID", "UserId", "GroupId", "Title", "Description", "DueDate", "Completed", "TaskPriority"};
+
+    public TaskRepositoryImpl(String csv_file_path) {
+        this.CSV_FILE_PATH = csv_file_path;
+    }
 
     @Override
     public void save(Task task) {

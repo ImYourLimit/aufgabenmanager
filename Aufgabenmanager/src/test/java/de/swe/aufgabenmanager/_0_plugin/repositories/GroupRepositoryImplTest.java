@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GroupRepositoryImplTest {
 
     private GroupRepositoryImpl groupRepository;
+    private static final String[] HEADERS = {"ID", "Name", "UserIds"};
 
     @TempDir
     File tempDir;
@@ -24,8 +26,14 @@ class GroupRepositoryImplTest {
     @BeforeEach
     void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
+
         String tempCsvFilePath = tempDir.getAbsolutePath() + "/groups.csv";
-        Files.copy(Path.of("src/main/resources/csv/groups.csv"), Path.of(tempCsvFilePath));
+        Path pathToCsv = Path.of(tempCsvFilePath);
+        Files.createFile(pathToCsv);
+        Files.writeString(pathToCsv, String.join(",", HEADERS) + "\n");
+
+        Files.writeString(pathToCsv, "1,InitialGroup,[1,2]\n", StandardOpenOption.APPEND);
+
         groupRepository = new GroupRepositoryImpl(tempCsvFilePath);
     }
 
@@ -35,6 +43,7 @@ class GroupRepositoryImplTest {
         groupRepository.save(newGroup);
 
         Group retrievedGroup = groupRepository.findById(999L);
+
         assertNotNull(retrievedGroup);
         assertEquals("TestGroup", retrievedGroup.getName());
     }
@@ -45,19 +54,23 @@ class GroupRepositoryImplTest {
         groupRepository.save(newGroup);
 
         groupRepository.delete(newGroup);
+
         assertNull(groupRepository.findById(999L));
     }
 
     @Test
     void findById() {
         Group group = groupRepository.findById(1L);
+
         assertNotNull(group);
+
         assertEquals(1L, group.getId());
     }
 
     @Test
     void findGroupIdsByUserId() {
         List<Long> groupIds = groupRepository.findGroupIdsByUserId(1L);
+
         assertFalse(groupIds.isEmpty());
         assertTrue(groupIds.contains(1L));
     }

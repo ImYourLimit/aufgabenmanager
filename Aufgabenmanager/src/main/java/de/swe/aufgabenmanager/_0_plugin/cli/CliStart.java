@@ -11,11 +11,15 @@ import static java.lang.Thread.sleep;
 
 public class CliStart {
 
-    IUserRepository userRepository;
-    UserService userService;
+    private IUserRepository userRepository;
+    private UserService userService;
+    private final String CSV_FILE_PATH_TASKS = "src/main/resources/csv/tasks.csv";
+    private final String CSV_FILE_PATH_GROUPS = "src/main/resources/csv/groups.csv";
+    private final String CSV_FILE_PATH_USERS = "src/main/resources/csv/users.csv";
+
 
     public CliStart() {
-        this.userRepository = new UserRepositoryImpl();
+        this.userRepository = new UserRepositoryImpl(CSV_FILE_PATH_USERS);
         this.userService = new UserService(userRepository);
     }
 
@@ -96,7 +100,7 @@ public class CliStart {
         }
         System.out.println("Login erfolgreich.");
         CliUtils.clearConsole();
-        CliMenu menu = new CliMenu(userService.getUserId(username));
+        CliMenu menu = new CliMenu(userService.getUserId(username), CSV_FILE_PATH_TASKS, CSV_FILE_PATH_GROUPS, CSV_FILE_PATH_USERS);
         menu.start();
     }
 }
