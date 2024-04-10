@@ -17,8 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.Thread.sleep;
-
 public class CliMenu {
     private Long userId;
     private String username;
@@ -50,7 +48,7 @@ public class CliMenu {
         this.username = userService.getUsername(userId);
     }
 
-    public void start() throws InterruptedException {
+    public void start() {
         System.out.println("Willkommen " + username + "!");
         List<Task> tasks = taskService.getNotCompletedTasksForUser(userId);
         Collections.sort(tasks, Comparator.comparing(Task::getDueDate));
@@ -73,7 +71,7 @@ public class CliMenu {
             switch (a) {
                 case 0:
                     System.out.println("Auf Wiedersehen!");
-                    sleep(1000);
+                    CliUtils.sleepFor(1000);
                     System.exit(0);
                     break;
                 case 1:
@@ -91,14 +89,14 @@ public class CliMenu {
                     break;
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
-                    sleep(1000);
+                    CliUtils.sleepFor(1000);
                     CliUtils.clearConsole();
                     start();
             }
         } catch (Exception e) {
             in.nextLine();
             System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            sleep(1000);
+            CliUtils.sleepFor(1000);
             CliUtils.clearConsole();
             start();
         }

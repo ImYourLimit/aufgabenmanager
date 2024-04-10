@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.Thread.sleep;
-
 public class CliTask {
 
     private Long userId;
@@ -35,7 +33,7 @@ public class CliTask {
         this.cliGroupUtils = new CliGroupUtils();
     }
 
-    public void start() throws InterruptedException {
+    public void start() {
         cliTaskUtils.showTasks(taskService.getNotCompletedTasksForUser(userId));
         System.out.println();
         System.out.println("Was möchten Sie tun?");
@@ -70,14 +68,14 @@ public class CliTask {
                     break;
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
-                    sleep(1000);
+                    CliUtils.sleepFor(1000);
                     CliUtils.clearConsole();
                     start();
             }
         } catch (Exception e) {
             in.nextLine();
             System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            sleep(1000);
+            CliUtils.sleepFor(1000);
             CliUtils.clearConsole();
             start();
         }
@@ -116,7 +114,7 @@ public class CliTask {
         }
     }
 
-    private void editTasksMenu() throws InterruptedException {
+    private void editTasksMenu() {
         cliTaskUtils.showTasks(tasks);
         System.out.println();
         System.out.println("0 - Zurück");
@@ -128,7 +126,7 @@ public class CliTask {
         editTask(taskNumber);
     }
 
-    private void completeTask() throws InterruptedException {
+    private void completeTask() {
         cliTaskUtils.showTasks(tasks);
         System.out.println();
         System.out.println("0 - Zurück");
@@ -142,10 +140,10 @@ public class CliTask {
         taskService.saveTask(task);
         tasks = taskService.getTasksForUser(task.getUserId());
         System.out.println("Aufgabe abgeschlossen.");
-        sleep(1000);
+        CliUtils.sleepFor(1000);
     }
 
-    private void editTask(int taskNumber) throws InterruptedException {
+    private void editTask(int taskNumber) {
         Task task = tasks.get(taskNumber);
         System.out.println("Was möchten Sie bearbeiten?");
         System.out.println("1 - Titel");
@@ -189,13 +187,13 @@ public class CliTask {
                 System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
                 editTask(taskNumber);
         }
-        sleep(1000);
+        CliUtils.sleepFor(1000);
         taskService.saveTask(task);
         tasks = taskService.getTasksForUser(task.getUserId());
         editTasksMenu();
     }
 
-    public void addTask() throws InterruptedException {
+    public void addTask() {
         System.out.println("Neue Aufgabe erstellen.");
         boolean isGroupTask = cliTaskUtils.enterIsGroupTask();
         Long groupId = -1L;
@@ -215,7 +213,7 @@ public class CliTask {
             taskService.addTask(userId, groupId, title, description, dueDate, false, taskPriority);
         }
         System.out.println("Aufgabe erfolgreich erstellt.");
-        sleep(1000);
+        CliUtils.sleepFor(1000);
         CliUtils.clearConsole();
     }
 

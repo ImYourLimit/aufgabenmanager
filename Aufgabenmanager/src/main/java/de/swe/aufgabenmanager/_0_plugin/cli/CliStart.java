@@ -7,8 +7,6 @@ import de.swe.aufgabenmanager._3_domain.interfaces.IUserRepository;
 
 import java.util.Scanner;
 
-import static java.lang.Thread.sleep;
-
 public class CliStart {
 
     IUserRepository userRepository;
@@ -19,7 +17,7 @@ public class CliStart {
         this.userService = new UserService(userRepository);
     }
 
-    public void start() throws InterruptedException {
+    public void start() {
         System.out.println("Guten Tag! Wilkommen im Aufgabenmanager. Was möchten Sie tun?");
         System.out.println("1 - Login");
         System.out.println("2 - Registrieren");
@@ -34,7 +32,7 @@ public class CliStart {
             switch (a) {
                 case 0:
                     System.out.println("Auf Wiedersehen!");
-                    sleep(1000);
+                    CliUtils.sleepFor(1000);
                     System.exit(0);
                     break;
                 case 1:
@@ -47,20 +45,20 @@ public class CliStart {
                     break;
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
-                    sleep(1000);
+                    CliUtils.sleepFor(1000);
                     CliUtils.clearConsole();
                     start();
             }
         } catch(Exception e){
             in.nextLine();
             System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            sleep(1000);
+            CliUtils.sleepFor(1000);
             CliUtils.clearConsole();
             start();
         }
     }
 
-    private void registrieren() throws InterruptedException {
+    private void registrieren() {
         System.out.println("Sie können jetzt einen neuen Benutzer registrieren.");
         System.out.println("Bitte geben Sie Ihren Benutzernamen ein:");
         Scanner in = new Scanner(System.in);
@@ -78,7 +76,7 @@ public class CliStart {
         login();
     }
 
-    private void login() throws InterruptedException {
+    private void login() {
         System.out.println("Login");
         System.out.println("Bitte geben Sie Ihren Benutzernamen ein:");
         Scanner in = new Scanner(System.in);

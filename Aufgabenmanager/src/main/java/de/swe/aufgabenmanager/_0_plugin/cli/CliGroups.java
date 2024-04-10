@@ -11,15 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.Thread.sleep;
-
 public class CliGroups {
     private GroupService groupService;
 
     public CliGroups(IGroupRepository groupRepository, IUserRepository userRepository) {
         this.groupService = new GroupService(groupRepository, userRepository);
     }
-    public void start() throws InterruptedException {
+    public void start() {
         System.out.println("Gruppen bearbeiten");
         System.out.println("Was möchten Sie tun?");
         System.out.println("1 - Gruppen anzeigen");
@@ -66,14 +64,14 @@ public class CliGroups {
                     break;
                 default:
                     System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
-                    sleep(1000);
+                    CliUtils.sleepFor(1000);
                     CliUtils.clearConsole();
                     start();
             }
         } catch(Exception e){
             in.nextLine();
             System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            sleep(1000);
+            CliUtils.sleepFor(1000);
             CliUtils.clearConsole();
             start();
         }
@@ -91,7 +89,7 @@ public class CliGroups {
         groupService.addGroup(name, userIds);
     }
 
-    public void deleteGroup() throws InterruptedException {
+    public void deleteGroup() {
         System.out.println("Gruppe löschen");
         showGroups();
         System.out.println();
@@ -101,7 +99,7 @@ public class CliGroups {
         Group group = groupService.getGroupById((long) groupId);
         groupService.deleteGroup(group);
         System.out.println("Gruppe gelöscht");
-        sleep(1000);
+        CliUtils.sleepFor(1000);
     }
 
     public void editGroup() {
