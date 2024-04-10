@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class CliUtils {
-    public final static void clearConsole()
+    public static void clearConsole()
     {
         try {
             String operatingSystem = System.getProperty("os.name");
