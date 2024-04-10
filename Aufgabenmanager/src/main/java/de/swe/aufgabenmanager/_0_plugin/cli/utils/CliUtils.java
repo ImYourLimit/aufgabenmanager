@@ -35,4 +35,12 @@ public class CliUtils {
         }
         return 0;
     }
+
+    public static void sleepFor(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
