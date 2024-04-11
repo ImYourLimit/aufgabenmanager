@@ -15,10 +15,12 @@ import java.util.List;
 
 public class GroupRepositoryImpl implements IGroupRepository {
 
-    private static final String CSV_FILE_PATH = "src/main/resources/csv/groups.csv";
+    private final String CSV_FILE_PATH;
     private static final String[] HEADERS = {"ID", "Name", "UserIds"};
 
-
+    public GroupRepositoryImpl(String csvFilePath) {
+        this.CSV_FILE_PATH = csvFilePath;
+    }
     @Override
     public void save(Group group) {
         List<Group> groups = findAll();

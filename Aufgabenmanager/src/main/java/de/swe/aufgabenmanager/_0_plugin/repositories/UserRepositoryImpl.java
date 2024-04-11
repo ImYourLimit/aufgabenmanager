@@ -15,8 +15,12 @@ import java.util.List;
 
 public class UserRepositoryImpl implements IUserRepository {
 
-    private static final String CSV_FILE_PATH = "src/main/resources/csv/users.csv";
+    private final String CSV_FILE_PATH;
     private static final String[] HEADERS = {"ID", "Username", "Password"};
+
+    public UserRepositoryImpl(String csv_file_path) {
+        this.CSV_FILE_PATH = csv_file_path;
+    }
 
     @Override
     public void save(User user) {

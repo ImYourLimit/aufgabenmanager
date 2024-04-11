@@ -30,7 +30,7 @@ public class CliTask {
         this.in = new Scanner(System.in);
         this.cliTaskUtils = new CliTaskUtils();
 
-        this.cliGroupUtils = new CliGroupUtils();
+        this.cliGroupUtils = new CliGroupUtils(groupService);
     }
 
     public void start() {

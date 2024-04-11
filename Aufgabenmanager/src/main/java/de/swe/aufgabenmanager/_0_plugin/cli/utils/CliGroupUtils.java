@@ -14,17 +14,11 @@ public class CliGroupUtils {
 
     private Scanner in;
     private GroupService groupService;
-    private IGroupRepository groupRepository;
-    private IUserRepository userRepository;
 
-    public CliGroupUtils() {
+    public CliGroupUtils(GroupService groupService) {
         this.in = new Scanner(System.in);
 
-        this.groupRepository = new GroupRepositoryImpl();
-        this.userRepository = new UserRepositoryImpl();
-
-
-        this.groupService = new GroupService(groupRepository, userRepository);
+        this.groupService = groupService;
     }
 
     public void showGroups(List<Group> groups) {
