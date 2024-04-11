@@ -1,6 +1,5 @@
 package de.swe.aufgabenmanager._0_plugin.cli.utils;
 
-import de.swe.aufgabenmanager._3_domain.entities.Group;
 import de.swe.aufgabenmanager._3_domain.entities.Task;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
@@ -28,7 +27,7 @@ public class CliTaskUtils {
         return description;
     }
 
-    public LocalDateTime enterDate() {
+    public LocalDateTime enterDueDate() {
         System.out.println("Geben sie das Jahr der Fälligkeit der Aufgabe ein:");
         int year = in.nextInt();
         System.out.println("Geben sie den Monat der Fälligkeit der Aufgabe ein:");
@@ -45,7 +44,7 @@ public class CliTaskUtils {
             return dueDate;
         } catch (Exception e) {
             System.out.println("Fehler: Bitte geben Sie ein gültiges Datum ein.");
-            enterDate();
+            enterDueDate();
         }
         return null;
     }

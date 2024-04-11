@@ -171,7 +171,7 @@ public class CliTask {
                 break;
             case 3:
                 System.out.println("Geben Sie das neue Fälligkeitsdatum ein:");
-                task.setDueDate(cliTaskUtils.enterDate());
+                task.setDueDate(cliTaskUtils.enterDueDate());
                 System.out.println("Fälligkeitsdatum geändert.");
                 break;
             case 4:
@@ -204,7 +204,7 @@ public class CliTask {
             groupId = (long) cliGroupUtils.enterGroupId();
         }
         String title = cliTaskUtils.enterTitle();
-        LocalDateTime dueDate = cliTaskUtils.enterDate();
+        LocalDateTime dueDate = cliTaskUtils.enterDueDate();
         String description = cliTaskUtils.enterDescription();
         TaskPriority taskPriority = cliTaskUtils.enterTaskPriority();
         if (isGroupTask) {
