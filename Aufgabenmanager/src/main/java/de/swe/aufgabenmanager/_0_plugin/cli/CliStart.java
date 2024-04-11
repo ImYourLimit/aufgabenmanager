@@ -32,7 +32,7 @@ public class CliStart {
         Scanner in = new Scanner(System.in);
 
         try {
-            int a = in.nextInt();
+            int a = CliUtils.readInt();
             switch (a) {
                 case 0:
                     System.out.println("Auf Wiedersehen!");
