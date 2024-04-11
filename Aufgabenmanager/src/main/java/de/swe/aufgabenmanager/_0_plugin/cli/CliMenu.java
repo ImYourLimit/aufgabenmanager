@@ -65,7 +65,7 @@ public class CliMenu {
         Scanner in = new Scanner(System.in);
 
         try {
-            int a = readInt();
+            int a = CliUtils.readInt();
             switch (a) {
                 case 0:
                     System.out.println("Auf Wiedersehen!");
@@ -99,18 +99,5 @@ public class CliMenu {
             start();
         }
         start();
-    }
-
-    private int readInt() {
-        Scanner in = new Scanner(System.in);
-        try {
-            int a = in.nextInt();
-            return a;
-        } catch (Exception e) {
-            in.nextLine();
-            System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            readInt();
-        }
-        return 0;
     }
 }

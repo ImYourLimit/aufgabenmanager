@@ -30,7 +30,7 @@ public class CliGroups {
         Scanner in = new Scanner(System.in);
 
         try {
-            int a = readInt();
+            int a = CliUtils.readInt();
             switch (a) {
                 case 0:
                     CliUtils.clearConsole();
@@ -42,7 +42,7 @@ public class CliGroups {
                     System.out.println("0 - Zurück");
 
                     while(true)  {
-                        a = readInt();
+                        a = CliUtils.readInt();
                         if (a == 0) {
                             break;
                         } else {
@@ -95,7 +95,7 @@ public class CliGroups {
         System.out.println();
         System.out.println("0 - Zurück");
         System.out.println("Wählen Sie eine Gruppe aus, die Sie löschen möchten:");
-        int groupId = readInt();
+        int groupId = CliUtils.readInt();
         Group group = groupService.getGroupById((long) groupId);
         groupService.deleteGroup(group);
         System.out.println("Gruppe gelöscht");
@@ -132,7 +132,7 @@ public class CliGroups {
             showUsers(users);
             System.out.println("0 - Fertig");
             System.out.println("Wählen Sie einen Benutzer aus, den Sie hinzufügen möchten:");
-            Long userId = (long) readInt();
+            Long userId = (long) CliUtils.readInt();
             if (userId == 0) {
                 finished = true;
             } else if (userId > 0 && users.stream().anyMatch(u -> u.getId() == userId)) {
@@ -146,7 +146,7 @@ public class CliGroups {
     }
 
     private Long selectGroup() {
-        int groupId = readInt();
+        int groupId = CliUtils.readInt();
         if (groupService.getAllGroups().isEmpty()) {
             System.out.println("Es gibt keine Gruppen.");
             return null;
@@ -171,18 +171,5 @@ public class CliGroups {
         for (Group g : groups) {
             System.out.println(g.getId() + " - " + g.getName());
         }
-    }
-
-    private int readInt() {
-        Scanner in = new Scanner(System.in);
-        try {
-            int a = in.nextInt();
-            return a;
-        } catch (Exception e) {
-            in.nextLine();
-            System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            readInt();
-        }
-        return 0;
     }
 }

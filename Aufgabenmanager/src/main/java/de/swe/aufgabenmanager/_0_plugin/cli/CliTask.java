@@ -44,7 +44,7 @@ public class CliTask {
         System.out.println("0 - Zurück zum Start");
         Scanner in = new Scanner(System.in);
         try {
-            int a = readInt();
+            int a = CliUtils.readInt();
             switch (a) {
                 case 0:
                     CliUtils.clearConsole();
@@ -88,7 +88,7 @@ public class CliTask {
         System.out.println("Welche Aufgabe möchten sie anzeigen lassen?");
         System.out.println("0 - Zurück");
 
-        int taskNumber = readInt() - 1;
+        int taskNumber = CliUtils.readInt() - 1;
         if (taskNumber == -1) {
             return;
         }
@@ -105,7 +105,7 @@ public class CliTask {
         System.out.println();
         System.out.println("0 - Zurück");
 
-        int a = readInt();
+        int a = CliUtils.readInt();
         switch (a) {
             case 0:
                 return;
@@ -120,7 +120,7 @@ public class CliTask {
         System.out.println();
         System.out.println("0 - Zurück");
         System.out.println("Welche Aufgabe möchten Sie abschließen?");
-        int taskNumber = readInt() - 1;
+        int taskNumber = CliUtils.readInt() - 1;
         if (taskNumber == -1) {
             return;
         }
@@ -155,18 +155,4 @@ public class CliTask {
         CliUtils.sleepFor(1000);
         CliUtils.clearConsole();
     }
-
-    private int readInt() {
-        Scanner in = new Scanner(System.in);
-        try {
-            int a = in.nextInt();
-            return a;
-        } catch (Exception e) {
-            in.nextLine();
-            System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            readInt();
-        }
-        return 0;
-    }
-
 }
