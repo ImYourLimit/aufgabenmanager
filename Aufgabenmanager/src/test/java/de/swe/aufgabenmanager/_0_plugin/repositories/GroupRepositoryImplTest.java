@@ -25,7 +25,6 @@ class GroupRepositoryImplTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
 
         String tempCsvFilePath = tempDir.getAbsolutePath() + "/groups.csv";
         Path pathToCsv = Path.of(tempCsvFilePath);

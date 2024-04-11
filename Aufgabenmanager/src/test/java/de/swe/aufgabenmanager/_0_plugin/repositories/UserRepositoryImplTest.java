@@ -27,8 +27,6 @@ class UserRepositoryImplTest {
     @BeforeEach
     void setUp() throws IOException {
 
-        MockitoAnnotations.initMocks(this);
-
         String tempCsvFilePath = tempDir.getAbsolutePath() + "/users.csv";
         Path pathToCsv = Path.of(tempCsvFilePath);
         Files.createFile(pathToCsv);

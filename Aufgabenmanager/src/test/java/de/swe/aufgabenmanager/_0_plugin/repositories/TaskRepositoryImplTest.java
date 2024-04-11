@@ -26,8 +26,6 @@ class TaskRepositoryImplTest {
     @BeforeEach
     void setUp() throws IOException {
 
-        MockitoAnnotations.initMocks(this);
-
         String tempCsvFilePath = tempDir.getAbsolutePath() + "/groups.csv";
         Path pathToCsv = Path.of(tempCsvFilePath);
         Files.createFile(pathToCsv);
@@ -39,7 +37,6 @@ class TaskRepositoryImplTest {
     @Test
     void save() {
         Task task = new Task(999L, 999L, 999L, "Test Title", "Test Description", LocalDateTime.MAX, true, TaskPriority.HIGH);
-
         taskRepository.save(task);
 
         Task retrievedTask = taskRepository.findByUserId(999L).get(0);
