@@ -1,6 +1,5 @@
 package de.swe.aufgabenmanager._0_plugin.cli.utils;
 
-import de.swe.aufgabenmanager._3_domain.entities.Group;
 import de.swe.aufgabenmanager._3_domain.entities.Task;
 import de.swe.aufgabenmanager._3_domain.vo.TaskPriority;
 
@@ -28,31 +27,31 @@ public class CliTaskUtils {
         return description;
     }
 
-    public LocalDateTime enterDate() {
+    public LocalDateTime enterDueDate() {
         System.out.println("Geben sie das Jahr der Fälligkeit der Aufgabe ein:");
-        int year = in.nextInt();
+        int year = CliUtils.readInt();
         System.out.println("Geben sie den Monat der Fälligkeit der Aufgabe ein:");
-        int month = in.nextInt();
+        int month = CliUtils.readInt();
         System.out.println("Geben sie den Tag der Fälligkeit der Aufgabe ein:");
-        int day = in.nextInt();
+        int day = CliUtils.readInt();
         System.out.println("Geben sie die Stunde der Fälligkeit der Aufgabe ein:");
-        int hour = in.nextInt();
+        int hour = CliUtils.readInt();
         System.out.println("Geben sie die Minute der Fälligkeit der Aufgabe ein:");
-        int minute = in.nextInt();
+        int minute = CliUtils.readInt();
         in.nextLine();
         try {
             LocalDateTime dueDate = LocalDateTime.of(year, month, day, hour, minute);
             return dueDate;
         } catch (Exception e) {
             System.out.println("Fehler: Bitte geben Sie ein gültiges Datum ein.");
-            enterDate();
+            enterDueDate();
         }
         return null;
     }
 
     public TaskPriority enterTaskPriority() {
         System.out.println("Geben sie die Nummer der Priorität der Aufgabe ein (1 = LOW, 2 = MEDIUM, 3 = HIGH):");
-        int priority = in.nextInt();
+        int priority = CliUtils.readInt();
         switch (priority) {
             case 1:
                 return TaskPriority.LOW;
@@ -69,7 +68,7 @@ public class CliTaskUtils {
 
     public boolean enterIsGroupTask() {
         System.out.println("Ist die Aufgabe eine Gruppenaufgabe? (1 = Ja, 2 = Nein)");
-        int isGroupTaskInt = in.nextInt();
+        int isGroupTaskInt = CliUtils.readInt();
         in.nextLine();
         return isGroupTaskInt == 1;
     }
