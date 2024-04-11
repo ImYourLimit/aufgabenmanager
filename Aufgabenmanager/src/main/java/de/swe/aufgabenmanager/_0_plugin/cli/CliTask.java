@@ -51,7 +51,8 @@ public class CliTask {
                     return;
                 case 1:
                     CliUtils.clearConsole();
-                    editTasksMenu();
+                    CliEditTask cliEditTask = new CliEditTask(taskService, tasks, cliTaskUtils);
+                    cliEditTask.start();
                     CliUtils.clearConsole();
                     start();
                     break;
@@ -114,18 +115,6 @@ public class CliTask {
         }
     }
 
-    private void editTasksMenu() {
-        cliTaskUtils.showTasks(tasks);
-        System.out.println();
-        System.out.println("0 - Zurück");
-        System.out.println("Welche Aufgabe möchten Sie bearbeiten?");
-        int taskNumber = CliUtils.readInt() - 1;
-        if (taskNumber == -1) {
-            return;
-        }
-        editTask(taskNumber);
-    }
-
     private void completeTask() {
         cliTaskUtils.showTasks(tasks);
         System.out.println();
@@ -141,56 +130,6 @@ public class CliTask {
         tasks = taskService.getTasksForUser(task.getUserId());
         System.out.println("Aufgabe abgeschlossen.");
         CliUtils.sleepFor(1000);
-    }
-
-    private void editTask(int taskNumber) {
-        Task task = tasks.get(taskNumber);
-        System.out.println("Was möchten Sie bearbeiten?");
-        System.out.println("1 - Titel");
-        System.out.println("2 - Beschreibung");
-        System.out.println("3 - Fälligkeitsdatum");
-        System.out.println("4 - Priorität");
-        System.out.println("5 - Löschen");
-        System.out.println();
-        System.out.println("0 - Zurück");
-        int a = CliUtils.readInt();
-        switch (a) {
-            case 0:
-                break;
-            case 1:
-                System.out.println("Geben Sie den neuen Titel ein:");
-                String newTitle = cliTaskUtils.enterTitle();
-                task.setTitle(newTitle);
-                System.out.println("Titel geändert.");
-                break;
-            case 2:
-                System.out.println("Geben Sie die neue Beschreibung ein:");
-                String newDescription = cliTaskUtils.enterDescription();
-                task.setDescription(newDescription);
-                System.out.println("Beschreibung geändert.");
-                break;
-            case 3:
-                System.out.println("Geben Sie das neue Fälligkeitsdatum ein:");
-                task.setDueDate(cliTaskUtils.enterDueDate());
-                System.out.println("Fälligkeitsdatum geändert.");
-                break;
-            case 4:
-                System.out.println("Geben Sie die neue Priorität ein:");
-                task.setTaskPriority(cliTaskUtils.enterTaskPriority());
-                System.out.println("Priorität geändert.");
-                break;
-            case 5:
-                taskService.deleteTask(task);
-                System.out.println("Aufgabe gelöscht.");
-                break;
-            default:
-                System.out.println("Fehler: Bitte geben Sie eine gültige Nummer ein.");
-                editTask(taskNumber);
-        }
-        CliUtils.sleepFor(1000);
-        taskService.saveTask(task);
-        tasks = taskService.getTasksForUser(task.getUserId());
-        editTasksMenu();
     }
 
     public void addTask() {
