@@ -23,19 +23,6 @@ public class CliUtils {
         }
     }
 
-    public static int readInt() {
-        Scanner in = new Scanner(System.in);
-        try {
-            int a = in.nextInt();
-            return a;
-        } catch (Exception e) {
-            in.nextLine();
-            System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
-            readInt();
-        }
-        return 0;
-    }
-
     public static void sleepFor(int time) {
         try {
             Thread.sleep(time);

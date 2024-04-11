@@ -6,6 +6,7 @@ import de.swe.aufgabenmanager._2_application.TaskService;
 import de.swe.aufgabenmanager._3_domain.entities.Task;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class CliEditTask {
 
@@ -28,7 +29,7 @@ public class CliEditTask {
         System.out.println();
         System.out.println("0 - Zurück");
         System.out.println("Welche Aufgabe möchten Sie bearbeiten?");
-        int taskNumber = CliUtils.readInt() - 1;
+        int taskNumber = readInt() - 1;
         if (taskNumber == -1) {
             return;
         }
@@ -45,7 +46,7 @@ public class CliEditTask {
         System.out.println("5 - Löschen");
         System.out.println();
         System.out.println("0 - Zurück");
-        int a = CliUtils.readInt();
+        int a = readInt();
         switch (a) {
             case 0:
                 break;
@@ -83,5 +84,18 @@ public class CliEditTask {
         taskService.saveTask(task);
         tasks = taskService.getTasksForUser(task.getUserId());
         editTasksMenu();
+    }
+
+    private int readInt() {
+        Scanner in = new Scanner(System.in);
+        try {
+            int a = in.nextInt();
+            return a;
+        } catch (Exception e) {
+            in.nextLine();
+            System.out.println("Fehler: Bitte geben Sie eine Nummer ein.");
+            readInt();
+        }
+        return 0;
     }
 }
